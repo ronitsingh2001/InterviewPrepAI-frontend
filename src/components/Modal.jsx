@@ -16,7 +16,7 @@ function Modal({ children, title, isOpen, onClose, hideHeader }) {
           </div>
         )}
 
-        <button className="text-gray-400 ms-auto cursor-pointer" type="button" onClick={onClose}><X /></button>
+        <button className="text-gray-400 ms-auto cursor-pointer absolute right-5 top-5" type="button" onClick={onClose}><X /></button>
         <div className="flex-1 overflow-y-scroll custom-scrollbar">{children}</div>
       </div>
     </div>

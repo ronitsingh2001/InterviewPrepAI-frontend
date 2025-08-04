@@ -1,19 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import HEROIMG from "../assets/hero-bg.png";
 import { useNavigate } from "react-router-dom";
-import { Sparkles } from "lucide-react";
+import { Sparkles, User } from "lucide-react";
 import { APP_FEATURES } from "../utils/data";
 import Modal from "../components/Modal";
 import Login from "./Auth/Login";
 import SignUp from "./Auth/SignUp";
+import { UserContext } from "../context/userContext";
+import ProfileInfoCard from "../components/Cards/ProfileInfoCard";
 
 function LandingPage() {
-  const navigate = useNavigate();
-
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [currentPage, setCurrentPage] = useState("login");
 
-  const handleCTA = () => {};
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleCTA = () => {
+    if (!user) {
+      openAuthModal(true);
+    } else {
+      navigate("/dashboard");
+    }
+  };
 
   return (
     <>
@@ -26,12 +35,16 @@ function LandingPage() {
             <div className="text-xl font-bold text-black">
               Interview Prep AI
             </div>
-            <button
-              className="bg-linear-to-r from-[#FF9324] to-[#e99a4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white border border-white transition-colors cursor-pointer"
-              onClick={() => setOpenAuthModal(true)}
-            >
-              Login / Sign Up
-            </button>
+            {user ? (
+              <ProfileInfoCard />
+            ) : (
+              <button
+                className="bg-linear-to-r from-[#FF9324] to-[#e99a4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white border border-white transition-colors cursor-pointer"
+                onClick={() => setOpenAuthModal(true)}
+              >
+                Login / Sign Up
+              </button>
+            )}
           </header>
           {/* Hero Content */}
           <div className="flex flex-col md:flex-row items-center">

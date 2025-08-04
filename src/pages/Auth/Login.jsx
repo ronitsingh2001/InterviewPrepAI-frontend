@@ -1,41 +1,56 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../utils/helper";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPath";
+import { UserContext } from "../../context/userContext";
 
 function Login({ setCurrentPage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
+  const { updateUser } = useContext(UserContext);
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    if(!validateEmail(email)){
-      setError('Please enter a valid email address.')
-      return
+    console.log('logging in...');
+    
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
     }
-    if(!password){
-      setError('Please enter the password.')
-      return
+    if (!password) {
+      setError("Please enter the password.");
+      return;
     }
 
-    setError("")
+    setError("");
 
-    // LOGIN API CALL 
+    // LOGIN API CALL
     try {
-      console.log('');
-      
-    }catch(err){
-      if(err.response && err.response.data.message){
-        setError(err.response.data.message)
-      }else{
-        setError("Something went wrong. Please try again.")
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
+
+      const { token } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);        
+        updateUser(response.data);
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      if (err.response && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again.");
       }
     }
-
   };
 
   return (
@@ -67,8 +82,11 @@ function Login({ setCurrentPage }) {
         </button>
 
         <p className="text-slate-800 mt-3">
-          Don't have an account? {" "}
-          <button className="font-medium text-primary underline cursor-pointer" onClick={() => setCurrentPage('signup')}>
+          Don't have an account?{" "}
+          <button
+            className="font-medium text-primary underline cursor-pointer"
+            onClick={() => setCurrentPage("signup")}
+          >
             SignUp
           </button>
         </p>

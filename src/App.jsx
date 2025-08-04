@@ -7,10 +7,11 @@ import Dashboard from "./pages/Home/Dashboard";
 import InterviewPrep from "./pages/InterviewPrep/InterviewPrep";
 
 import { Toaster } from "react-hot-toast";
+import UserContextProvider from "./context/userContext";
 
 function App() {
   return (
-    <>
+    <UserContextProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -33,7 +34,7 @@ function App() {
           },
         }}
       />
-    </>
+    </UserContextProvider>
   );
 }
 
