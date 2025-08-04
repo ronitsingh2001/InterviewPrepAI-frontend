@@ -76,7 +76,7 @@ function CreateSessionForm() {
   };
 
   return (
-    <div className="w-[90vw] md:w-[35vw] p-7 flex flex-col justify-center">
+    <div className="w-[90vw] md:w-[60vw] lg:w-[40vw] p-7 flex flex-col justify-center">
       <h3 className="text-lg font-semibold">Start a New Interview Journey</h3>
       <p className="text-xs text-slate-700 mt-[3px] mb-3">
         Fill out few quick details and unlock your personalized set of interview
