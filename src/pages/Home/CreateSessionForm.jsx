@@ -49,7 +49,7 @@ function CreateSessionForm() {
           numberOfQuestions: 10,
         }
       );
-      console.log(aiResponse);
+      // console.log(aiResponse);
 
       // Generated array look like [{question:'...', answer:'...'},...]
       const generatedQuestions = aiResponse.data;
@@ -58,7 +58,7 @@ function CreateSessionForm() {
         ...formData,
         questions: generatedQuestions,
       });
-      console.log(response);
+      // console.log(response);
       if (response.data?.session?._id) {
         navigate(`/interview-prep/${response?.data?.session?._id}`);
       }

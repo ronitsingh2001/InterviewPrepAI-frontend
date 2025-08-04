@@ -17,8 +17,6 @@ function Login({ setCurrentPage }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('logging in...');
-    
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       return;

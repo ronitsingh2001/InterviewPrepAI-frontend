@@ -44,8 +44,6 @@ function InterviewPrep() {
 
   // Generate explaination for question
   const generateConceptExplaination = async (question) => {
-    console.log(question);
-
     try {
       setErrorMsg("");
       setExplaination(null);
@@ -60,7 +58,6 @@ function InterviewPrep() {
         }
       );
 
-      console.log(response);
       if (response.data) {
         setExplaination(response.data);
       }
@@ -79,7 +76,6 @@ function InterviewPrep() {
       const response = await axiosInstance.post(
         API_PATHS.QUESTIONS.PIN(questionId)
       );
-      console.log(response);
 
       if (response.data && response.data.question) {
         fetchSessionDetailsById();
@@ -118,10 +114,10 @@ function InterviewPrep() {
         fetchSessionDetailsById();
       }
     } catch (error) {
-      if(error.response && error.response.data.message){
-        setErrorMsg(error.response.data.message)
-      }else{
-        setErrorMsg("Something went wrong, Please try again.")
+      if (error.response && error.response.data.message) {
+        setErrorMsg(error.response.data.message);
+      } else {
+        setErrorMsg("Something went wrong, Please try again.");
       }
       console.error("Error: ", error);
     } finally {
@@ -137,94 +133,101 @@ function InterviewPrep() {
 
   return (
     <DashboardLayout>
-      <RoleInfoHeader
-        role={sessionData?.role || ""}
-        topicsToFocus={sessionData?.topicsToFocus || ""}
-        experience={sessionData?.experience || "-"}
-        questions={sessionData?.questions?.length || "-"}
-        description={sessionData?.description || ""}
-        lastUpdated={
-          sessionData?.updatedAt
-            ? moment(sessionData.updatedAt).format("Do MMM YYYY")
-            : ""
-        }
-      />
-      <div className="container mx-auto py-4 px-4 md:px-0">
-        <h2 className="text-lg font-semibold text-black">Interview Q & A</h2>
-        <div className="grid grid-cols-12 gap-4 mt-5 mb-10">
-          <div
-            className={`col-span-12 ${
-              openLearnMoreSection ? "md:col-span-7" : "md:col-span-8"
-            }`}
-          >
-            <AnimatePresence>
-              {sessionData?.questions?.map((q, idx) => (
-                <motion.div
-                  key={q._id || idx}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{
-                    duration: 0.4,
-                    type: "spring",
-                    stiffness: 100,
-                    delay: idx * 0.1,
-                    damping: 15,
-                  }}
-                  layout
-                  layoutId={`question-${q._id || idx}`}
-                >
-                  <>
-                    <QuestionCard
-                      question={q?.question}
-                      answer={q?.answer}
-                      onLearnMore={() =>
-                        generateConceptExplaination(q?.question)
-                      }
-                      isPinned={q?.isPinned}
-                      onTogglePin={() => toggleQuestionPinStatus(q._id)}
-                    />
-                  </>
-                  {!isLoading && sessionData?.questions?.length == idx + 1 && (
-                    <div className="flex items-center justify-center mt-5">
-                      <button
-                        className="flex items-center gap-3 text-sm text-white font-medium bg-black px-5 py-2 mr-2 rounded text-nowrap cursor-pointer"
-                        disabled={isLoading}
-                        onClick={addMoreQuestions}
-                      >
-                        {isUpdateLoader ? (
-                          <SpinnerLoader />
-                        ) : (
-                          <ListCollapse size={15} />
-                        )}{" "}
-                        Load More
-                      </button>
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        </div>
+      {sessionData && (
+        <>
+          <RoleInfoHeader
+            role={sessionData?.role || ""}
+            topicsToFocus={sessionData?.topicsToFocus || ""}
+            experience={sessionData?.experience || "-"}
+            questions={sessionData?.questions?.length || "-"}
+            description={sessionData?.description || ""}
+            lastUpdated={
+              sessionData?.updatedAt
+                ? moment(sessionData.updatedAt).format("Do MMM YYYY")
+                : ""
+            }
+          />
+          <div className="container mx-auto py-4 px-4 md:px-0">
+            <h2 className="text-lg font-semibold text-black">
+              Interview Q & A
+            </h2>
+            <div className="grid grid-cols-12 gap-4 mt-5 mb-10">
+              <div
+                className={`col-span-12 ${
+                  openLearnMoreSection ? "md:col-span-7" : "md:col-span-8"
+                }`}
+              >
+                <AnimatePresence>
+                  {sessionData?.questions?.map((q, idx) => (
+                    <motion.div
+                      key={q._id || idx}
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{
+                        duration: 0.4,
+                        type: "spring",
+                        stiffness: 100,
+                        delay: idx * 0.1,
+                        damping: 15,
+                      }}
+                      layout
+                      layoutId={`question-${q._id || idx}`}
+                    >
+                      <>
+                        <QuestionCard
+                          question={q?.question}
+                          answer={q?.answer}
+                          onLearnMore={() =>
+                            generateConceptExplaination(q?.question)
+                          }
+                          isPinned={q?.isPinned}
+                          onTogglePin={() => toggleQuestionPinStatus(q._id)}
+                        />
+                      </>
+                      {!isLoading &&
+                        sessionData?.questions?.length == idx + 1 && (
+                          <div className="flex items-center justify-center mt-5">
+                            <button
+                              className="flex items-center gap-3 text-sm text-white font-medium bg-black px-5 py-2 mr-2 rounded text-nowrap cursor-pointer"
+                              disabled={isLoading}
+                              onClick={addMoreQuestions}
+                            >
+                              {isUpdateLoader ? (
+                                <SpinnerLoader />
+                              ) : (
+                                <ListCollapse size={15} />
+                              )}{" "}
+                              Load More
+                            </button>
+                          </div>
+                        )}
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            </div>
 
-        <div>
-          <Drawer
-            isOpen={openLearnMoreSection}
-            onClose={() => setOpenLearnMoreSection(false)}
-            title={!isLoading && explaination?.title}
-          >
-            {errorMsg && (
-              <p className="flex gap-2 text-sm text-amber-600 font-medium">
-                <CircleAlert className="mt-1" size={15} /> {errorMsg}
-              </p>
-            )}
-            {isLoading && <SkeletonLoader />}
-            {!isLoading && explaination && (
-              <AIResponsePreview content={explaination?.explanation} />
-            )}
-          </Drawer>
-        </div>
-      </div>
+            <div>
+              <Drawer
+                isOpen={openLearnMoreSection}
+                onClose={() => setOpenLearnMoreSection(false)}
+                title={!isLoading && explaination?.title}
+              >
+                {errorMsg && (
+                  <p className="flex gap-2 text-sm text-amber-600 font-medium">
+                    <CircleAlert className="mt-1" size={15} /> {errorMsg}
+                  </p>
+                )}
+                {isLoading && <SkeletonLoader />}
+                {!isLoading && explaination && (
+                  <AIResponsePreview content={explaination?.explanation} />
+                )}
+              </Drawer>
+            </div>
+          </div>
+        </>
+      )}
     </DashboardLayout>
   );
 }
