@@ -5,6 +5,7 @@ import moment from "moment";
 import RoleInfoHeader from "./components/RoleInfoHeader";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPath";
+// eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import QuestionCard from "./components/QuestionCard";
 import { CircleAlert, ListCollapse } from "lucide-react";
@@ -158,52 +159,54 @@ function InterviewPrep() {
                 }`}
               >
                 <AnimatePresence>
-                  {sessionData?.questions?.map((q, idx) => (
-                    <motion.div
-                      key={q._id || idx}
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{
-                        duration: 0.4,
-                        type: "spring",
-                        stiffness: 100,
-                        delay: idx * 0.1,
-                        damping: 15,
-                      }}
-                      layout
-                      layoutId={`question-${q._id || idx}`}
-                    >
-                      <>
-                        <QuestionCard
-                          question={q?.question}
-                          answer={q?.answer}
-                          onLearnMore={() =>
-                            generateConceptExplaination(q?.question)
-                          }
-                          isPinned={q?.isPinned}
-                          onTogglePin={() => toggleQuestionPinStatus(q._id)}
-                        />
-                      </>
-                      {!isLoading &&
-                        sessionData?.questions?.length == idx + 1 && (
-                          <div className="flex items-center justify-center mt-5">
-                            <button
-                              className="flex items-center gap-3 text-sm text-white font-medium bg-black px-5 py-2 mr-2 rounded text-nowrap cursor-pointer"
-                              disabled={isLoading}
-                              onClick={addMoreQuestions}
-                            >
-                              {isUpdateLoader ? (
-                                <SpinnerLoader />
-                              ) : (
-                                <ListCollapse size={15} />
-                              )}{" "}
-                              Load More
-                            </button>
-                          </div>
-                        )}
-                    </motion.div>
-                  ))}
+                  {sessionData?.questions?.map((q, idx) => {
+                    return (
+                      <motion.div
+                        key={q._id || idx}
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{
+                          duration: 0.4,
+                          type: "spring",
+                          stiffness: 100,
+                          delay: idx * 0.1,
+                          damping: 15,
+                        }}
+                        layout
+                        layoutId={`question-${q._id || idx}`}
+                      >
+                        <>
+                          <QuestionCard
+                            question={q?.question}
+                            answer={q?.answer}
+                            onLearnMore={() =>
+                              generateConceptExplaination(q?.question)
+                            }
+                            isPinned={q?.isPinned}
+                            onTogglePin={() => toggleQuestionPinStatus(q._id)}
+                          />
+                        </>
+                        {!isLoading &&
+                          sessionData?.questions?.length == idx + 1 && (
+                            <div className="flex items-center justify-center mt-5">
+                              <button
+                                className="flex items-center gap-3 text-sm text-white font-medium bg-black px-5 py-2 mr-2 rounded text-nowrap cursor-pointer"
+                                disabled={isLoading}
+                                onClick={addMoreQuestions}
+                              >
+                                {isUpdateLoader ? (
+                                  <SpinnerLoader />
+                                ) : (
+                                  <ListCollapse size={15} />
+                                )}{" "}
+                                Load More
+                              </button>
+                            </div>
+                          )}
+                      </motion.div>
+                    );
+                  })}
                 </AnimatePresence>
               </div>
             </div>
