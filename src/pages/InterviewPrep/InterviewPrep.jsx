@@ -80,6 +80,7 @@ function InterviewPrep() {
 
       if (response.data && response.data.question) {
         fetchSessionDetailsById();
+        toast.success("Question Pin Status Changed")
       }
     } catch (error) {
       console.error("Error: ", error);
