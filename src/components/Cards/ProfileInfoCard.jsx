@@ -15,26 +15,26 @@ function ProfileInfoCard() {
 
   return (
     <>
-      {user && (
-        <div className="flex items-center">
+      <div className="flex items-center">
+        {user?.profileImageUrl && (
           <img
-            src={user.profileImageUrl}
+            src={user?.profileImageUrl}
             alt=""
             className="w-11 h-11 bg-gray-300 rounded-full mr-3 object-cover"
           />
-          <div>
-            <div className="text-[15px] leading-3 font-bold text-black">
-              {user.name || ""}
-            </div>
-            <button
-              className="text-amber-500 text-sm font-semibold cursor-pointer hover:underline"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
+        )}
+        <div>
+          <div className="text-[15px] leading-3 font-bold text-black">
+            {user?.name || "User name"}
           </div>
+          <button
+            className="text-amber-500 text-sm font-semibold cursor-pointer hover:underline"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </div>
-      )}
+      </div>
     </>
   );
 }

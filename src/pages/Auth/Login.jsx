@@ -5,11 +5,13 @@ import { validateEmail } from "../../utils/helper";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPath";
 import { UserContext } from "../../context/userContext";
+import SpinnerLoader from "../../components/Loader/SpinnerLoader";
 
 function Login({ setCurrentPage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { updateUser } = useContext(UserContext);
 
@@ -27,6 +29,7 @@ function Login({ setCurrentPage }) {
     }
 
     setError("");
+    setIsLoading(true);
 
     // LOGIN API CALL
     try {
@@ -38,7 +41,7 @@ function Login({ setCurrentPage }) {
       const { token } = response.data;
 
       if (token) {
-        localStorage.setItem("token", token);        
+        localStorage.setItem("token", token);
         updateUser(response.data);
         navigate("/dashboard");
       }
@@ -48,6 +51,8 @@ function Login({ setCurrentPage }) {
       } else {
         setError("Something went wrong. Please try again.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -75,7 +80,8 @@ function Login({ setCurrentPage }) {
 
         {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
-        <button type="submit" className="btn-primary">
+        <button disabled={isLoading} type="submit" className="btn-primary">
+          {isLoading && <SpinnerLoader />}
           LOGIN
         </button>
 

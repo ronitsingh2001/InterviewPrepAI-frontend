@@ -4,6 +4,7 @@ import Input from "../../components/Inputs/Input";
 import SpinnerLoader from "../../components/Loader/SpinnerLoader";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPath";
+import toast from "react-hot-toast";
 
 function CreateSessionForm() {
   const [formData, setFormData] = useState({
@@ -60,6 +61,7 @@ function CreateSessionForm() {
       });
       // console.log(response);
       if (response.data?.session?._id) {
+        toast.success("Session Created Successfully")
         navigate(`/interview-prep/${response?.data?.session?._id}`);
       }
     } catch (error) {

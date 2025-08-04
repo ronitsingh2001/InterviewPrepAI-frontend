@@ -18,7 +18,7 @@ function LandingPage() {
 
   const handleCTA = () => {
     if (!user) {
-      openAuthModal(true);
+      setOpenAuthModal(true);
     } else {
       navigate("/dashboard");
     }

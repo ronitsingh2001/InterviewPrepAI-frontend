@@ -7,6 +7,7 @@ import { UserContext } from "../../context/userContext";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPath";
 import uploadImage from "../../utils/uploadImage";
+import SpinnerLoader from "../../components/Loader/SpinnerLoader";
 
 function SignUp({ setCurrentPage }) {
   const [fullName, setFullName] = useState("");
@@ -14,6 +15,7 @@ function SignUp({ setCurrentPage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -36,6 +38,7 @@ function SignUp({ setCurrentPage }) {
       return;
     }
     setError("");
+    setIsLoading(true);
 
     // SIGNUP API Call
     try {
@@ -64,6 +67,8 @@ function SignUp({ setCurrentPage }) {
       } else {
         setError("Something went wrong. Please try again.");
       }
+    } finally{
+      setIsLoading(false)
     }
   };
 
@@ -100,7 +105,8 @@ function SignUp({ setCurrentPage }) {
         </div>
         {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
-        <button type="submit" className="btn-primary">
+         <button disabled={isLoading} type="submit" className="btn-primary">
+          {isLoading && <SpinnerLoader />}
           SIGN UP
         </button>
 

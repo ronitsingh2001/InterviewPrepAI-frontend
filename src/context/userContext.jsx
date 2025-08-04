@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import axiosInstance from "../utils/axiosInstance";
 import { API_PATHS } from "../utils/apiPath";
+import toast from "react-hot-toast";
 
 export const UserContext = createContext();
 
@@ -36,11 +37,14 @@ const UserContextProvider = ({ children }) => {
     setUser(userData);
     localStorage.setItem("token", userData.token);
     setLoading(false);
+    toast.success("Logged In Successfully")
+
   };
 
   const clearUser = () => {
     setUser(null);
     localStorage.removeItem("token");
+    toast.success("Logged Out Successfully")
   };
 
   return (
