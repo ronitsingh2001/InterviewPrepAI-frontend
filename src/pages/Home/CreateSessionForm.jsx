@@ -47,7 +47,7 @@ function CreateSessionForm() {
           role,
           experience,
           topicsToFocus,
-          numberOfQuestions: 10,
+          numberOfQuestions: 15,
         }
       );
       // console.log(aiResponse);

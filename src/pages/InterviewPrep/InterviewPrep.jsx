@@ -97,7 +97,7 @@ function InterviewPrep() {
           role: sessionData?.role,
           experience: sessionData?.experience,
           topicsToFocus: sessionData?.topicsToFocus,
-          numberOfQuestions: 5,
+          numberOfQuestions: 10,
         }
       );
 

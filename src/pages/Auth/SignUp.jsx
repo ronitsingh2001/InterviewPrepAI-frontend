@@ -54,6 +54,8 @@ function SignUp({ setCurrentPage }) {
         profileImageUrl,
         password,
       });
+      console.log(response.data);
+      
 
       const { token } = response.data;
       if (token) {
