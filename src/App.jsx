@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import UserContextProvider from "./context/userContext";
-import SessionLoader from "./components/Loader/SessionLoader";
 import SpinnerLoader from "./components/Loader/SpinnerLoader";
 
 // Lazy loaded pages
